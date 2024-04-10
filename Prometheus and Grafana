@@ -1,0 +1,78 @@
+Prometheus:
+
+Prometheus is an open-source monitoring and alerting toolkit originally built at SoundCloud. It is now a standalone open-source project maintained by the Cloud Native Computing Foundation (CNCF). Prometheus is designed for reliability, scalability, and simplicity in monitoring dynamic, modern infrastructures.
+
+Key features of Prometheus include:
+
+Multi-dimensional Data Model: Prometheus stores time-series data with labels, enabling flexible querying and aggregation based on various dimensions.
+PromQL: Prometheus Query Language (PromQL) allows users to query and analyze metrics data.
+Pull-Based Metrics Collection: Prometheus scrapes metrics from instrumented targets at regular intervals, making it suitable for dynamic environments like Kubernetes.
+Service Discovery: Prometheus integrates with various service discovery mechanisms, including Kubernetes, to automatically discover and monitor new services.
+Alerting: Prometheus supports flexible alerting rules based on metrics data, allowing users to define alert conditions and notification mechanisms.
+Overall, Prometheus provides powerful monitoring capabilities for cloud-native environments, enabling real-time visibility into application and infrastructure metrics.
+
+Grafana:
+
+Grafana is an open-source analytics and visualization platform that allows users to query, visualize, and alert on metrics data from various data sources, including Prometheus, Graphite, Elasticsearch, and more. Grafana is highly customizable and provides a rich set of visualization options for creating dashboards and exploring data.
+
+Key features of Grafana include:
+
+Data Source Integration: Grafana supports integration with numerous data sources, allowing users to query and visualize metrics and logs from different systems in a single dashboard.
+Dashboard Creation: Grafana provides a web-based interface for creating and customizing dashboards with various panels, including graphs, tables, and logs.
+Alerting and Notifications: Grafana supports alerting based on metric thresholds and provides notification channels for alerting via email, Slack, PagerDuty, etc.
+Templating: Grafana supports template variables, enabling dynamic dashboards that can adapt to changing environments or filter data based on user input.
+Community Plugins: Grafana has a vibrant ecosystem of community-built plugins and integrations, extending its functionality and providing additional visualization options.
+Grafana is widely used for creating comprehensive monitoring dashboards that consolidate metrics from different sources, providing insights into the performance and health of applications and infrastructure.
+
+Prometheus and Grafana complement each other in a monitoring stack: Prometheus collects and stores metrics data, while Grafana provides powerful visualization and alerting capabilities, allowing users to gain actionable insights into their systems. Together, they form a robust monitoring solution widely used in modern IT environments.
+
+prometheus and grafana setup:
+-----------------------------
+1. Install kubernetes
+-> Execute the below command to install k3s
+curl -sfL https://get.k3s.io | sh –
+
+-> After installation to check the k3s status
+sudo systemctl status k3s
+2. Install helm charts
+To install helm:
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+3. create separate name space - monitoring:
+kubectl create namespace monitoring
+
+4. Add below repo
+#helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 
+
+#helm repo update
+
+#helm repo list
+
+5. To install below repo
+
+#helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
+
+6. update the service yaml file to change type of service from ClusterIP to LoadBalancer
+#kubectl edit svc prometheus-kube-prometheus-prometheus -n monitoring
+
+Loginto Prometheus dashboard to monitor application http://<IP>:9090
+
+
+
+7. update the service yaml file to change type of service from ClusterIP to LoadBalancer
+kubectl edit svc prometheus-grafana
+
+8. To access grafana: http://<server ipaddress>
+
+9.To login to Grafana account, use the below username and password
+
+username: admin
+password: prom-operator
+
+Here we should check for "Node Exporter/USE method/Node" and "Node Exporter/USE method/Cluster" USE - Utilization, Saturation, Errors
+
+Even we can check the behavior of each pod, node, and cluster
+
