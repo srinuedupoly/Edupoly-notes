@@ -1,0 +1,54 @@
+Helm is a package manager for Kubernetes that allows you to define, install, and manage Kubernetes applications. Helm uses charts, which are packages of pre-configured Kubernetes resources, to simplify the deployment and management of complex applications.
+
+Here's an explanation of Helm charts with an example:
+
+Let's say you have a simple web application consisting of a frontend service, a backend service, and a database. You want to deploy this application to a Kubernetes cluster using Helm.
+
+Installing Helm: First, you need to install Helm on your local machine and initialize it on your Kubernetes cluster.
+
+Creating a Helm Chart: You'll create a Helm chart for your web application. A Helm chart is a directory structure containing templates, values, and metadata files.
+
+Chart.yaml: This file contains metadata about the chart, such as its name, version, and description.
+
+values.yaml: This file contains default configuration values for the chart. You can override these values when installing the chart.
+
+templates/: This directory contains Kubernetes manifest templates written in YAML or JSON. Helm uses these templates to generate the actual Kubernetes resources when installing the chart. You can use placeholders in the templates to dynamically insert values from the values.yaml file.
+
+Defining Kubernetes Resources: Within the templates/ directory, you'll define Kubernetes resources such as Deployments, Services, ConfigMaps, Secrets, etc., using YAML or JSON templates. For example, you'll have templates for frontend and backend Deployments, Service objects for exposing these services, and possibly a StatefulSet or Deployment for the database.
+
+Using Templating: Helm allows you to use Go templating to generate Kubernetes manifests dynamically. You can insert values from the values.yaml file, loop through lists, conditionally include or exclude resources, etc., making your charts flexible and reusable.
+
+Packaging the Chart: Once you've defined the chart, you package it into a .tgz file using the Helm CLI. This package contains all the necessary files and metadata needed to install the chart.
+
+Installing the Chart: To deploy your application to Kubernetes, you use the helm install command, providing the path to the chart package and any overrides for the default configuration values. Helm then generates Kubernetes manifests from the chart templates, applies any overrides, and deploys the resources to your cluster.
+
+Managing Releases: Helm keeps track of releases, which are instances of charts deployed to Kubernetes. You can use commands like helm list, helm status, helm upgrade, and helm rollback to manage these releases, making it easy to upgrade or rollback your application as needed.
+
+Example structure:
+
+webapp-chart/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    ├── frontend-deployment.yaml
+    ├── backend-deployment.yaml
+    ├── frontend-service.yaml
+    ├── backend-service.yaml
+    ├── database-deployment.yaml
+    └── database-service.yaml
+
+
+
+To install helm:
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+Execute below command to create nginx helm charts
+
+# helm create nginx-helm-chart
+
+Execute below command to create apache helm charts
+
+# helm create apache-webapp-chart
